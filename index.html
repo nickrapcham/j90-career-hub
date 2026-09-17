@@ -1,0 +1,1332 @@
+<title>J90 Career UT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-0:#01070f; --bg-1:#04101f; --bg-2:#020b18;
+  --panel:oklch(0.26 0.05 255 / 58%); --panel-2:oklch(0.30 0.055 255 / 55%);
+  --border:oklch(0.72 0.06 250 / 16%); --border-strong:oklch(0.72 0.08 250 / 30%);
+  --text:oklch(0.97 0.006 250); --text-muted:#8fabce; --text-dim:#5c7699;
+  --gold:oklch(0.82 0.14 88); --gold-soft:oklch(0.92 0.09 95);
+  --success:oklch(0.78 0.19 150); --warning:oklch(0.85 0.17 92);
+  --info:#55c7f3; --blue:#168bff; --danger:oklch(0.63 0.22 25);
+  --radius:0.8rem; --font-d:'Oswald',system-ui,sans-serif; --font-b:'Barlow',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{
+  background:radial-gradient(120% 90% at 20% -10%,var(--bg-1) 0%,var(--bg-2) 45%,var(--bg-0) 100%);
+  background-attachment:fixed; color:var(--text); font-family:var(--font-b); font-size:14px;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,.disp{font-family:var(--font-d);letter-spacing:.03em}
+.upp{text-transform:uppercase;letter-spacing:.18em}
+a{color:inherit}
+button{font-family:var(--font-b);cursor:pointer}
+input,select,textarea{font-family:var(--font-b);color:var(--text);background:oklch(0.22 0.045 255 / 70%);
+  border:1px solid var(--border-strong);border-radius:.5rem;padding:.5rem .65rem;font-size:.85rem;width:100%}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:1px}
+label{display:block;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.3rem}
+.field{margin-bottom:.7rem}
+.tabular{font-variant-numeric:tabular-nums}
+
+/* layout */
+#app{min-height:100vh}
+.shell{display:flex;min-height:100vh}
+.side{width:13.5rem;flex-shrink:0;background:rgba(3,13,26,.9);backdrop-filter:blur(10px);
+  border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:space-between;
+  position:sticky;top:0;height:100vh;padding:1rem 0}
+.side-scroll{overflow-y:auto;min-height:0}
+.brand{padding:0 1rem 1rem}
+.brand .name{font-family:var(--font-d);font-size:1.6rem;line-height:1;
+  background:linear-gradient(100deg,var(--gold),var(--gold-soft),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand .sub{font-size:.5rem;letter-spacing:.4em;color:var(--text-muted);text-transform:uppercase;margin-top:.3rem}
+.hr{height:1px;margin:0 1rem;background:linear-gradient(90deg,color-mix(in oklab,var(--gold) 45%,transparent),var(--border),transparent)}
+.navgroup-label{padding:0 1rem;margin:.9rem 0 .35rem;font-size:.5rem;letter-spacing:.28em;color:color-mix(in oklab,var(--text-muted) 70%,transparent);text-transform:uppercase}
+.navitem{display:flex;align-items:center;gap:.6rem;margin:0 .5rem;padding:.45rem .6rem;border-radius:.5rem;
+  font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);border:none;background:none;width:calc(100% - 1rem);text-align:left}
+.navitem:hover{background:rgba(255,255,255,.05);color:var(--text)}
+.navitem.active{border-left:2px solid var(--gold);background:rgba(255,255,255,.06);color:var(--text)}
+.navitem .ic{width:1rem;text-align:center;opacity:.85;color:var(--info)}
+.side-foot{margin:.8rem .75rem 0}
+.club-chip{display:flex;align-items:center;gap:.6rem;border:1px solid var(--border);background:rgba(255,255,255,.03);border-radius:.7rem;padding:.55rem}
+.crest{width:2.1rem;height:2.1rem;border-radius:999px;border:1px solid color-mix(in oklab,var(--gold) 35%,transparent);
+  background:rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);color:var(--gold);flex-shrink:0;font-size:.85rem}
+
+.main{flex:1;min-width:0;padding:.85rem;display:flex;flex-direction:column;gap:.6rem}
+
+/* panel */
+.panel{position:relative;border-radius:var(--radius);border:1px solid var(--border);
+  background:linear-gradient(165deg,var(--panel),var(--panel-2));backdrop-filter:blur(12px);
+  box-shadow:0 16px 36px -24px rgba(0,0,0,.85);overflow:hidden;padding:.7rem .8rem;display:flex;flex-direction:column}
+.panel.accent::before{content:"";position:absolute;left:0;top:10%;bottom:10%;width:2px;
+  background:linear-gradient(180deg,transparent,var(--gold),transparent);opacity:.8}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.35rem}
+.panel-title{font-family:var(--font-d);font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:color-mix(in oklab,var(--gold) 85%,white)}
+.hairline-h{height:1px;background:linear-gradient(90deg,color-mix(in oklab,var(--gold) 45%,transparent),var(--border),transparent);margin-bottom:.5rem}
+
+.bar{height:.42rem;border-radius:999px;background:#0b2038;overflow:hidden;box-shadow:inset 0 1px 0 0 rgba(0,0,0,.35)}
+.bar>i{display:block;height:100%;border-radius:999px;transition:width .4s}
+.bar.gold>i{background:linear-gradient(90deg,var(--gold),var(--gold-soft))}
+.bar.info>i{background:linear-gradient(90deg,var(--blue),var(--info))}
+
+.stat{font-family:var(--font-d);line-height:.85}
+.muted{color:var(--text-muted)}
+.dim{color:var(--text-dim)}
+.gold{color:var(--gold)}
+.ok{color:var(--success)}
+.warn{color:var(--warning)}
+.bad{color:var(--danger)}
+.info-c{color:var(--info)}
+
+.btn{border-radius:.55rem;border:1px solid var(--border-strong);background:rgba(255,255,255,.03);
+  color:var(--text);padding:.5rem .85rem;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:.4rem;transition:.15s}
+.btn:hover{border-color:color-mix(in oklab,var(--gold) 45%,var(--border-strong));color:var(--gold)}
+.btn.primary{background:linear-gradient(100deg,var(--gold),var(--gold-soft));color:#1a1206;border-color:transparent;font-weight:600}
+.btn.primary:hover{filter:brightness(1.06);color:#1a1206}
+.btn.danger:hover{border-color:var(--danger);color:var(--danger)}
+.btn.sm{padding:.3rem .55rem;font-size:.62rem}
+.btn.ghost{border:none;background:none}
+.btn:disabled{opacity:.45;pointer-events:none}
+
+.pill{display:inline-flex;align-items:center;gap:.3rem;border-radius:999px;padding:.15rem .55rem;font-size:.58rem;
+  letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--border-strong)}
+.pill.ok{color:var(--success);border-color:color-mix(in oklab,var(--success) 45%,transparent)}
+.pill.warn{color:var(--warning);border-color:color-mix(in oklab,var(--warning) 45%,transparent)}
+.pill.info{color:var(--info);border-color:color-mix(in oklab,var(--info) 45%,transparent)}
+.pill.dim{color:var(--text-muted)}
+
+table{width:100%;border-collapse:collapse;font-size:.78rem}
+thead th{text-align:left;font-family:var(--font-d);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--text-muted);padding:.4rem .5rem;border-bottom:1px solid var(--border)}
+tbody td{padding:.45rem .5rem;border-bottom:1px solid color-mix(in oklab,var(--border) 60%,transparent)}
+tbody tr:hover{background:rgba(255,255,255,.02)}
+.scroll-y{overflow-y:auto}
+.grid{display:grid;gap:.6rem}
+.flex{display:flex}
+.row{display:flex;align-items:center}
+.wrap{flex-wrap:wrap}
+.gap{gap:.5rem}
+.between{justify-content:space-between}
+.center{align-items:center}
+.g1{gap:.25rem}.g2{gap:.5rem}.g3{gap:.75rem}
+.mt1{margin-top:.4rem}.mt2{margin-top:.8rem}
+.p0{padding:0}
+.card-row{display:flex;gap:.8rem;flex-wrap:wrap}
+
+.modal-bg{position:fixed;inset:0;background:rgba(1,4,9,.72);backdrop-filter:blur(2px);
+  display:flex;align-items:center;justify-content:center;z-index:50;padding:1rem}
+.modal{width:100%;max-width:560px;max-height:88vh;overflow-y:auto;border-radius:1rem;border:1px solid var(--border-strong);
+  background:linear-gradient(165deg,#0d2138,#081627);box-shadow:0 30px 70px -20px rgba(0,0,0,.8);padding:1.1rem 1.2rem}
+
+/* pitch */
+.pitch{position:relative;flex:1;min-height:260px;border-radius:.8rem;border:1px solid var(--border);overflow:hidden;
+  background:radial-gradient(120% 90% at 50% -10%,#0b2c20,#061c13 58%,#04120c 100%);
+  box-shadow:inset 0 1px 0 0 rgba(255,255,255,.05);display:flex;flex-direction:column;justify-content:space-between;padding:.5rem 0}
+.pitch-lines{position:absolute;inset:0;opacity:.9;pointer-events:none}
+.pitch-row{display:flex;justify-content:space-evenly;align-items:center;flex:1;padding:0 3%;position:relative;z-index:2}
+.pcard{display:flex;flex-direction:column;align-items:center;gap:.15rem;width:3.6rem}
+.pcard .chip{width:3rem;height:3.55rem;clip-path:polygon(50% 0%,100% 8%,100% 86%,50% 100%,0% 86%,0% 8%);
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:.28rem;position:relative}
+.pcard .ovr{font-family:var(--font-d);font-size:.95rem;line-height:1}
+.pcard .pos{font-family:var(--font-d);font-size:.46rem;letter-spacing:.1em;opacity:.85}
+.pcard .nm{font-size:.5rem;text-align:center;margin-top:.15rem;max-width:4rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-muted)}
+.rar-gold{background:linear-gradient(160deg,oklch(.88 .12 90),oklch(.55 .09 78));color:#241a04}
+.rar-especial,.rar-evo{background:linear-gradient(160deg,oklch(.85 .16 155),oklch(.35 .1 162));color:#052014}
+.rar-hero{background:linear-gradient(160deg,oklch(.8 .16 45),oklch(.4 .12 32));color:#280e02}
+.rar-icon{background:linear-gradient(160deg,oklch(.93 .07 95),oklch(.55 .07 90));color:#241a02}
+.bench-row{display:flex;gap:.4rem;justify-content:space-between;padding:.5rem .6rem;border-radius:.7rem;
+  border:1px solid var(--border);background:rgba(255,255,255,.02);margin-top:.5rem}
+.bench-card{width:2.2rem;height:2.6rem;border-radius:.3rem;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--font-d)}
+.bench-card .o{font-size:.72rem;line-height:1}
+.bench-card .p{font-size:.4rem;opacity:.8}
+
+.donut-wrap{position:relative}
+.donut-wrap .lbl{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+
+.access-gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.2rem}
+.gate-card{max-width:400px;width:100%;text-align:center}
+.gate-card .badge{font-size:2.4rem;margin-bottom:.6rem}
+
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 .7rem}
+.formgrid .full{grid-column:1/-1}
+@media (max-width:720px){.formgrid{grid-template-columns:1fr}}
+
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-thumb{background:color-mix(in oklab,var(--gold) 25%,#0b2038);border-radius:999px}
+::-webkit-scrollbar-track{background:transparent}
+
+@media (max-width:860px){
+  .shell{flex-direction:column}
+  .side{position:relative;width:100%;height:auto;flex-direction:row;overflow-x:auto;padding:.6rem}
+  .side-scroll{display:flex}
+  .side-foot{display:none}
+  .brand{display:none}
+}
+</style>
+
+<div id="app"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/preact@10.19.6/dist/preact.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/preact@10.19.6/hooks/dist/hooks.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.js"></script>
+<script>
+const { h, render, Fragment } = preact;
+const { useState, useEffect, useMemo, useCallback, useRef } = preactHooks;
+const html = htm.bind(h);
+
+/* ============== CONFIG ============== */
+const SB_URL = "https://syebadartcozbfchfdbw.supabase.co";
+const SB_KEY = "sb_publishable_b4J1Fi8xyASpAxkrBBvCcw_RWRx1tSq";
+const FLASK_API = "https://meusite-flask-api.onrender.com";
+
+async function sb(path, { method = "GET", body, params, prefer } = {}) {
+  let url = `${SB_URL}/rest/v1/${path}`;
+  if (params) url += (path.includes("?") ? "&" : "?") + new URLSearchParams(params).toString();
+  const headers = { apikey: SB_KEY, "Content-Type": "application/json" };
+  if (prefer) headers["Prefer"] = prefer;
+  const res = await fetch(url, { method, headers, body: body !== undefined ? JSON.stringify(body) : undefined });
+  if (!res.ok) { let t = ""; try { t = (await res.json()).message; } catch {} throw new Error(t || `${res.status} ${res.statusText}`); }
+  if (res.status === 204) return null;
+  const txt = await res.text();
+  return txt ? JSON.parse(txt) : null;
+}
+const sbSelect = (table, params = {}) => sb(table, { params: { select: "*", ...params } });
+const sbInsert = (table, row) => sb(table, { method: "POST", body: row, prefer: "return=representation" });
+const sbUpdate = (table, id, row) => sb(`${table}?id=eq.${id}`, { method: "PATCH", body: row, prefer: "return=representation" });
+const sbDelete = (table, id) => sb(`${table}?id=eq.${id}`, { method: "DELETE" });
+const sbDeleteWhere = (table, params) => sb(table, { method: "DELETE", params });
+const bind = (setValues, key) => (value) => setValues(v => ({ ...v, [key]: value }));
+
+function money(v) {
+  v = Number(v || 0);
+  const abs = Math.abs(v);
+  const txt = abs >= 1e6 ? (abs / 1e6).toFixed(2) + "M" : abs >= 1e3 ? Math.round(abs / 1e3) + "K" : String(Math.round(abs));
+  return (v < 0 ? "−" : "") + txt;
+}
+const ROMAN = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+const roman = n => ROMAN[n] || String(n);
+function formationRows(f) {
+  if (!f) return [1, 4, 3, 3];
+  const nums = f.split("-").map(Number).filter(n => !isNaN(n));
+  return [1, ...nums];
+}
+function rarityClass(cardType) {
+  const t = (cardType || "").toLowerCase();
+  if (t === "icon") return "rar-icon";
+  if (t === "hero") return "rar-hero";
+  if (t === "especial" || t === "evo") return "rar-especial";
+  return "rar-gold";
+}
+function aproveitamento(w, d, l) { const g = w + d + l; return g <= 0 ? 0 : Math.round(((w * 3 + d) / (g * 3)) * 100); }
+
+/* ============== AUTH GATE ============== */
+const TOKEN_KEY = "j90_token", USER_KEY = "j90_usuario";
+function useAuthGate() {
+  const [state, setState] = useState({ status: "checking", usuario: null });
+  useEffect(() => {
+    (async () => {
+      const qs = new URLSearchParams(location.search);
+      let token = qs.get("token");
+      const usuarioQ = qs.get("usuario");
+      if (token) {
+        try { localStorage.setItem(TOKEN_KEY, token); if (usuarioQ) localStorage.setItem(USER_KEY, usuarioQ); } catch {}
+        const clean = location.pathname;
+        history.replaceState({}, "", clean);
+      } else {
+        try { token = localStorage.getItem(TOKEN_KEY); } catch {}
+      }
+      if (!token) { setState({ status: "denied", usuario: null }); return; }
+      try {
+        const res = await fetch(`${FLASK_API}/api/validar-token`, { headers: { Authorization: `Bearer ${token}` } });
+        if (!res.ok) throw new Error("invalido");
+        const data = await res.json();
+        if (data.valido) setState({ status: "ok", usuario: data.usuario });
+        else throw new Error("invalido");
+      } catch {
+        try { localStorage.removeItem(TOKEN_KEY); localStorage.removeItem(USER_KEY); } catch {}
+        setState({ status: "denied", usuario: null });
+      }
+    })();
+  }, []);
+  return state;
+}
+
+function AccessGate() {
+  return html`
+    <div class="access-gate">
+      <div class="panel accent gate-card" style="padding:2rem 1.6rem">
+        <div class="badge">\u{1F512}</div>
+        <h1 class="disp upp gold" style="font-size:1.3rem;margin:0 0 .4rem">Acesso restrito</h1>
+        <p class="muted" style="font-size:.85rem;line-height:1.5">
+          Este painel usa o mesmo login do seu site. Entre por lá pra continuar.
+        </p>
+        <a href="${FLASK_API}/login" class="btn primary mt2" style="justify-content:center;width:100%">Ir para o login</a>
+      </div>
+    </div>`;
+}
+
+/* ============== SHARED UI ============== */
+function Panel({ title, action, accent, className = "", bodyStyle = "", children }) {
+  return html`
+    <section class="panel ${accent ? "accent" : ""} ${className}">
+      ${title ? html`
+        <div class="panel-head">
+          <h3 class="panel-title">${title}</h3>
+          ${action || null}
+        </div>
+        <div class="hairline-h"></div>` : null}
+      <div style="flex:1;min-height:0;${bodyStyle}">${children}</div>
+    </section>`;
+}
+function Bar({ value, tone = "gold" }) {
+  const pct = Math.max(0, Math.min(100, Math.round(value || 0)));
+  return html`<div class="bar ${tone}"><i style="width:${pct}%"></i></div>`;
+}
+function Donut({ wins, draws, losses, size = 120 }) {
+  const total = Math.max(1, wins + draws + losses);
+  const r = size / 2 - 8, c = 2 * Math.PI * r;
+  const segs = [["oklch(0.78 0.19 150)", wins], ["oklch(0.85 0.17 92)", draws], ["oklch(0.63 0.22 25)", losses]];
+  let off = 0;
+  const pct = Math.round((wins / total) * 100);
+  return html`
+    <div class="donut-wrap" style="width:${size}px;height:${size}px">
+      <svg width="${size}" height="${size}" style="transform:rotate(-90deg)">
+        <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="#0b2038" stroke-width="8"/>
+        ${segs.map(([color, v]) => { const len = (v/total)*c; const el = html`<circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${color}" stroke-width="8" stroke-dasharray="${len} ${c-len}" stroke-dashoffset="${-off}"/>`; off += len; return el; })}
+      </svg>
+      <div class="lbl">
+        <span class="stat gold" style="font-size:1.5rem">${pct}%</span>
+        <span class="muted upp" style="font-size:.52rem">${wins}V ${draws}E ${losses}D</span>
+      </div>
+    </div>`;
+}
+function Field({ label, children }) { return html`<div class="field"><label>${label}</label>${children}</div>`; }
+function TextInput({ value, onChange, type = "text", placeholder = "" }) {
+  return html`<input type="${type}" value="${value ?? ""}" placeholder="${placeholder}"
+    onInput=${e => onChange(type === "number" ? Number(e.target.value) : e.target.value)} />`;
+}
+function Select({ value, onChange, options, placeholder }) {
+  return html`<select onChange=${e => onChange(e.target.value)}>
+    ${placeholder ? html`<option value="">${placeholder}</option>` : null}
+    ${options.map(o => html`<option value="${o.value}" selected=${String(o.value) === String(value)}>${o.label}</option>`)}
+  </select>`;
+}
+function Checkbox({ checked, onChange, label }) {
+  return html`<label class="row g2" style="text-transform:none;letter-spacing:0;font-size:.8rem;color:var(--text)">
+    <input type="checkbox" style="width:auto" checked=${!!checked} onChange=${e => onChange(e.target.checked)} /> ${label}
+  </label>`;
+}
+function Modal({ onClose, children, title }) {
+  return html`<div class="modal-bg" onClick=${e => { if (e.target === e.currentTarget) onClose(); }}>
+    <div class="modal">
+      <div class="row between" style="margin-bottom:.8rem">
+        <h3 class="disp upp gold" style="font-size:.95rem;margin:0">${title}</h3>
+        <button class="btn sm ghost" onClick=${onClose}>✕</button>
+      </div>
+      ${children}
+    </div>
+  </div>`;
+}
+function PlayerChip({ p, size = "sm" }) {
+  if (!p) return html`<div class="pcard"><div class="chip" style="background:rgba(255,255,255,.04)"></div><span class="nm dim">vazio</span></div>`;
+  return html`
+    <div class="pcard">
+      <div class="chip ${rarityClass(p.card_type)}">
+        <span class="ovr">${p.current_ovr ?? p.currentOvr}</span>
+        <span class="pos">${p.main_position ?? p.mainPosition}</span>
+      </div>
+      <span class="nm">${p.short_name || p.name}</span>
+    </div>`;
+}
+
+/* ============== APP DATA HOOK ============== */
+function useCareerData(refreshKey) {
+  const [data, setData] = useState({ loading: true });
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const careers = await sbSelect("careers", { order: "created_at.asc" });
+        const career = careers.find(c => c.status === "ATIVA") || careers[0] || null;
+        if (!career) { if (!cancelled) setData({ loading: false, career: null, careers }); return; }
+        const cid = `eq.${career.id}`;
+        const [players, callUps, formations, tactics, competitions, campaigns, eras, eraReqs, eraObjs, eraMiles, goals, txAll, txRecent, txFull, evos] = await Promise.all([
+          sbSelect("players", { career_id: cid, order: "current_ovr.desc" }),
+          sbSelect("call_ups", { career_id: cid, order: "created_at.desc" }),
+          sbSelect("formations", { order: "sort_order.asc" }),
+          sbSelect("tactics", { career_id: cid, order: "created_at.desc" }),
+          sbSelect("competitions", { career_id: cid, order: "created_at.desc" }),
+          sbSelect("competition_campaigns", { career_id: cid, order: "played_on.desc" }),
+          sbSelect("eras", { career_id: cid, order: "order_number.asc" }),
+          sbSelect("era_requirements", { career_id: cid, order: "sort_order.asc" }),
+          sbSelect("era_objectives", { career_id: cid, order: "sort_order.asc" }),
+          sbSelect("era_milestones", { career_id: cid, order: "occurred_on.desc" }),
+          sbSelect("financial_goals", { career_id: cid, order: "created_at.asc" }),
+          sbSelect("financial_transactions", { career_id: cid, select: "kind,amount" }),
+          sbSelect("financial_transactions", { career_id: cid, order: "occurred_on.desc,created_at.desc", limit: "8" }),
+          sbSelect("financial_transactions", { career_id: cid, order: "occurred_on.desc,created_at.desc" }),
+          sbSelect("player_evos", { career_id: cid, order: "applied_at.desc" }),
+        ]);
+        let callUpSlots = [];
+        const activeCallUp = callUps.find(c => c.status === "ativa") || null;
+        if (activeCallUp) callUpSlots = await sbSelect("call_up_slots", { call_up_id: `eq.${activeCallUp.id}`, order: "slot_index.asc" });
+        if (!cancelled) setData({
+          loading: false, career, careers, players, callUps, activeCallUp, callUpSlots, formations, tactics,
+          competitions, campaigns, eras, eraReqs, eraObjs, eraMiles, goals, txAll, txRecent, txFull, evos,
+        });
+      } catch (err) {
+        if (!cancelled) setData({ loading: false, error: String(err.message || err) });
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [refreshKey]);
+  return data;
+}
+
+/* ============== CENTRAL DO CLUBE ============== */
+function CentralDoClube({ d, bump }) {
+  const { career, players, activeCallUp, callUpSlots, eras, eraReqs, eraObjs, goals, txAll, txRecent, competitions, campaigns, evos, formations } = d;
+  const income = txAll.filter(t => t.kind === "RECEITA").reduce((s, t) => s + Number(t.amount), 0);
+  const expenses = txAll.filter(t => t.kind === "DESPESA").reduce((s, t) => s + Number(t.amount), 0);
+  const caixa = Number(career.current_funds || 0) + income - expenses;
+  const era = eras.find(e => e.status === "ATIVA") || null;
+  const reqs = era ? eraReqs.filter(r => r.era_id === era.id) : [];
+  const objs = era ? eraObjs.filter(o => o.era_id === era.id) : [];
+  const evoIds = new Set(evos.map(e => e.player_id));
+  const evalReq = (r) => {
+    let current = 0;
+    if (r.kind === "QUANTIDADE_ADQUIRIDA") current = players.filter(p => p.club_status === "ATIVO" && (!r.player_category || p.narrative_category === r.player_category) && (r.player_filter !== "LA_FABRICA" || p.la_fabrica)).length;
+    else if (r.kind === "QUANTIDADE_CONVOCADA") { const ids = new Set((callUpSlots || []).filter(s => s.player_id).map(s => s.player_id)); current = players.filter(p => ids.has(p.id) && (!r.player_category || p.narrative_category === r.player_category)).length; }
+    else if (r.kind === "LA_FABRICA") current = players.filter(p => p.la_fabrica && p.club_status === "ATIVO").length;
+    else if (r.kind === "JOVENS_DESENVOLVIDOS") current = players.filter(p => p.la_fabrica && evoIds.has(p.id)).length;
+    else current = r.manual_done ? r.target_value : 0;
+    const target = Math.max(0, r.target_value || 0);
+    const pct = target ? Math.min(100, Math.round((current / target) * 100)) : 0;
+    return { ...r, current, target, pct, done: current >= target };
+  };
+  const evaluated = reqs.map(evalReq);
+  const rebuildReq = evaluated.find(r => r.kind === "QUANTIDADE_ADQUIRIDA" && r.player_category === "ATUAL") || null;
+  const youthReq = evaluated.find(r => r.kind === "JOVENS_DESENVOLVIDOS") || null;
+  const requiredItems = evaluated.filter(r => r.required);
+  const objRequired = objs.filter(o => o.required);
+  const scope = requiredItems.length || objRequired.length ? [...requiredItems, ...objRequired] : [...evaluated, ...objs];
+  const eraPct = scope.length ? Math.round(scope.reduce((s, i) => s + (i.pct !== undefined ? i.pct : (i.status === "CONCLUIDO" ? 100 : i.status === "EM_ANDAMENTO" ? 50 : 0)), 0) / scope.length) : 0;
+
+  const goal = goals.find(g => g.is_primary) || goals.find(g => g.status === "ATIVO") || null;
+  const goalPct = goal && goal.target_value ? Math.min(100, Math.round((caixa / goal.target_value) * 100)) : 0;
+
+  const wlComps = competitions.filter(c => c.category === "CHAMPIONS_LEAGUE").map(c => c.id);
+  const wlCampaigns = campaigns.filter(c => wlComps.includes(c.competition_id));
+  const wlLast = wlCampaigns[0] || null;
+  const wlRecord = wlCampaigns.reduce((a, c) => ({ w: a.w + (c.wins||0), d: a.d + (c.draws||0), l: a.l + (c.losses||0) }), { w: 0, d: 0, l: 0 });
+  const mvp = wlLast?.mvp_player_id ? players.find(p => p.id === wlLast.mvp_player_id) : null;
+
+  const upcoming = competitions.filter(c => c.status === "EM_ANDAMENTO" && c.starts_on).sort((a,b) => a.starts_on.localeCompare(b.starts_on))[0] || null;
+
+  const byId = Object.fromEntries(players.map(p => [p.id, p]));
+  const rows = activeCallUp ? formationRows(activeCallUp.formation) : [1, 4, 3, 3];
+  const starterSlots = (callUpSlots || []).filter(s => s.slot_type === "TITULAR").sort((a,b) => a.slot_index - b.slot_index);
+  const benchSlots = (callUpSlots || []).filter(s => s.slot_type === "BANCO").sort((a,b) => a.slot_index - b.slot_index);
+  let idx = 0;
+  const lines = rows.map(count => { const line = starterSlots.slice(idx, idx + count).map(s => byId[s.player_id]); idx += count; return line; });
+
+  const laFabrica = players.filter(p => p.la_fabrica && evoIds.has(p.id)).slice(0, 6);
+  const initials = (career.club_name || "").split(/\s+/).map(w => w[0]).join("").slice(0, 3).toUpperCase();
+
+  const overallPct = aproveitamento(career.overall_wins, career.overall_draws, career.overall_losses);
+
+  const objetivosLinhas = [];
+  if (rebuildReq) objetivosLinhas.push({ t: rebuildReq.description || "Elenco adquirido", s: `${rebuildReq.current}/${rebuildReq.target}`, ok: rebuildReq.done });
+  if (goal) objetivosLinhas.push({ t: goal.name, s: goal.status === "CONCLUIDO" ? "Concluído" : `${goalPct}%`, ok: goal.status === "CONCLUIDO" });
+  if (youthReq) objetivosLinhas.push({ t: youthReq.description || "Jovens desenvolvidos", s: `${youthReq.current}/${youthReq.target}`, ok: youthReq.done });
+  objs.forEach(o => objetivosLinhas.push({ t: o.title, s: o.status === "CONCLUIDO" ? "Concluído" : o.status === "EM_ANDAMENTO" ? "Em andamento" : "Pendente", ok: o.status === "CONCLUIDO" }));
+
+  return html`
+    <${Fragment}>
+      <div class="panel accent" style="flex-direction:row;align-items:center;justify-content:space-between;padding:.6rem .9rem">
+        <div class="row g3">
+          <div class="crest" style="width:2.6rem;height:2.6rem;font-size:1rem">${initials || "—"}</div>
+          <div>
+            <div class="muted upp" style="font-size:.5rem;letter-spacing:.4em;color:var(--gold)">Modo Carreira UT</div>
+            <h1 class="disp upp" style="font-size:1.4rem;margin:0">${career.club_name}</h1>
+            <div class="muted upp" style="font-size:.55rem;letter-spacing:.2em">${era ? `Era ${roman(era.order_number)} — ${era.name}` : "Sem Era ativa"} · ${career.game_edition}</div>
+          </div>
+        </div>
+        <div class="row g2 wrap">
+          <div class="pill dim">Temporada&nbsp;<b class="gold">${career.season}</b></div>
+          <div class="pill dim">Elenco&nbsp;<b class="gold">${rebuildReq ? `${rebuildReq.current}/${rebuildReq.target}` : players.length}</b></div>
+          <div class="pill dim">Caixa&nbsp;<b class="gold">${money(caixa)}</b></div>
+          <div class="pill ok">● No ar</div>
+        </div>
+      </div>
+
+      <div class="grid" style="grid-template-columns:repeat(5,1fr)">
+        <${Panel} title="Era Atual" accent=${true}>
+          <div class="stat" style="font-size:2.2rem;line-height:.85">${era ? `Era ${roman(era.order_number)}` : "—"}</div>
+          <div class="gold upp" style="font-size:.85rem;margin:.2rem 0">${era ? era.name : "Nenhuma Era ativa"}</div>
+          <div class="dim" style="font-size:.68rem;margin-bottom:.5rem">${era ? (era.subtitle || "") : ""}</div>
+          <${Bar} value=${eraPct} />
+          <div class="muted upp mt1" style="font-size:.58rem">${eraPct}% concluída</div>
+        <//>
+        <${Panel} title="Reconstrução do Elenco">
+          <div class="stat" style="font-size:2.4rem">${rebuildReq ? rebuildReq.current : players.length}<span class="muted" style="font-size:1.1rem">${rebuildReq ? ` / ${rebuildReq.target}` : ""}</span></div>
+          <div class="muted upp mt1" style="font-size:.58rem">${rebuildReq ? (rebuildReq.description||"Elenco adquirido") : "Elenco adquirido"}</div>
+          <${Bar} tone="info" value=${rebuildReq ? rebuildReq.pct : 0} />
+        <//>
+        <${Panel} title="Objetivo Principal">
+          ${goal ? html`
+            <div class="gold stat" style="font-size:1.1rem;margin-bottom:.3rem">${goal.name}</div>
+            <div class="row between" style="font-size:.68rem"><span class="dim">Caixa</span><b>${money(caixa)}</b></div>
+            <div class="row between" style="font-size:.68rem"><span class="dim">Alvo</span><b>${money(goal.target_value)}</b></div>
+            <${Bar} value=${goalPct} />` : html`<div class="dim" style="text-align:center;padding-top:1rem">Nenhum objetivo</div>`}
+        <//>
+        <${Panel} title="Última FUT Champions">
+          <div class="stat" style="font-size:2.2rem">${wlLast ? wlLast.wins : "—"}<span class="dim"> – </span>${wlLast ? wlLast.losses : "—"}</div>
+          <div class="gold upp mt1" style="font-size:.55rem">Craque da WL</div>
+          <div class="stat upp" style="font-size:1rem">${mvp ? (mvp.short_name||mvp.name) : "—"}</div>
+        <//>
+        <${Panel} title="Próximo Compromisso" bodyStyle="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+          ${upcoming ? html`<div class="stat upp" style="font-size:1.15rem">${upcoming.name}</div><div class="gold upp mt1" style="font-size:.6rem">Começa em ${upcoming.starts_on}</div>` : html`<div class="dim">Nenhum compromisso</div>`}
+        <//>
+      </div>
+
+      <div class="grid" style="grid-template-columns:1.15fr 1fr;align-items:stretch">
+        <${Panel} title="Convocação Ativa" accent=${true} action=${activeCallUp ? html`
+          <div class="row g2" style="font-size:.6rem" class="upp">
+            <span class="pill dim">${activeCallUp.formation}</span>
+            <span class="pill dim">${activeCallUp.tactic || "—"}</span>
+            <span class="pill info">${activeCallUp.eafc_code || "—"}</span>
+          </div>` : null}>
+          ${activeCallUp ? html`
+            <div class="pitch">
+              <div class="pitch-lines"></div>
+              ${lines.map(line => html`<div class="pitch-row">${line.map(p => html`<${PlayerChip} p=${p} />`)}</div>`)}
+            </div>
+            <div class="bench-row">
+              ${benchSlots.map(s => { const p = byId[s.player_id]; return html`
+                <div class="bench-card ${p ? rarityClass(p.card_type) : ""}" style="${!p ? 'background:rgba(255,255,255,.04)' : ''}">
+                  <span class="o">${p ? p.current_ovr : ""}</span><span class="p">${p ? p.main_position : "—"}</span>
+                </div>`; })}
+            </div>` : html`<div class="dim" style="text-align:center;padding:2rem 0">Nenhuma convocação ativa</div>`}
+        <//>
+        <div class="grid" style="grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:.6rem">
+          <${Panel} title="Desempenho FUT Champions" bodyStyle="display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <${Donut} wins=${wlRecord.w} draws=${wlRecord.d} losses=${wlRecord.l} size=${110}/>
+          <//>
+          <${Panel} title="Desempenho Geral" bodyStyle="display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <${Donut} wins=${career.overall_wins} draws=${career.overall_draws} losses=${career.overall_losses} size=${110}/>
+          <//>
+          <${Panel} title="La Fábrica" className="scroll-y" bodyStyle="max-height:150px">
+            ${laFabrica.length === 0 ? html`<div class="dim" style="font-size:.7rem">Nenhum jogador</div>` :
+              laFabrica.map(p => html`
+              <div class="row between" style="padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.72rem">
+                <span>${p.short_name||p.name}</span>
+                <span class="tabular"><span class="dim">${p.initial_ovr}</span> <span class="info-c">→</span> <span class="ok">${p.current_ovr}</span></span>
+              </div>`)}
+          <//>
+          <${Panel} title="Finanças Recentes" className="scroll-y" bodyStyle="max-height:150px">
+            ${txRecent.length === 0 ? html`<div class="dim" style="font-size:.7rem">Nada ainda</div>` :
+              txRecent.map(t => html`
+              <div class="row between" style="padding:.25rem 0;font-size:.72rem">
+                <span class="muted" style="max-width:8rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.description}</span>
+                <span class="tabular ${t.kind==='RECEITA'?'ok':'bad'}">${t.kind==='RECEITA'?'+':'−'}${money(t.amount)}</span>
+              </div>`)}
+          <//>
+        </div>
+      </div>
+      <${Panel} title="Objetivos da Temporada">
+        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+          ${objetivosLinhas.length === 0 ? html`<div class="dim">Nenhum objetivo</div>` : objetivosLinhas.map(o => html`
+            <div class="row between" style="font-size:.75rem;padding:.3rem 0">
+              <span class="muted">${o.t}</span><b class="${o.ok?'ok':'warn'}">${o.s}</b>
+            </div>`)}
+        </div>
+      <//>
+    <//>`;
+}
+
+/* ============== CONSTANTS ============== */
+const POSITIONS = ["GK","LB","CB","RB","CDM","CM","CAM","LM","LW","RM","RW","ST"];
+const CARD_TYPES = ["Bronze","Prata","Ouro","Especial","EVO","Hero","Icon"];
+const CLUB_STATUS = ["ATIVO","EMPRESTADO","VENDIDO","APOSENTADO"];
+const NARRATIVE_CATS = ["ATUAL","BASE","LENDA"];
+
+/* ============== GENERIC CRUD SECTION ============== */
+function CrudSection({ title, items, columns, renderForm, onSave, onDelete, newLabel = "+ Novo", extra, emptyLabel = "Nada por aqui ainda", initial = {} }) {
+  const [editing, setEditing] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
+  const openNew = () => { setEditing({ ...initial }); setErr(""); };
+  const openEdit = (row) => { setEditing({ ...row }); setErr(""); };
+  const close = () => { setEditing(null); setErr(""); };
+  const doSave = async () => {
+    setBusy(true); setErr("");
+    try { await onSave(editing); close(); }
+    catch (e) { setErr(String(e.message || e)); }
+    setBusy(false);
+  };
+  const doDelete = async (row) => {
+    if (!confirm("Excluir este registro?")) return;
+    try { await onDelete(row); } catch (e) { alert("Erro ao excluir: " + (e.message || e)); }
+  };
+  return html`
+    <${Fragment}>
+      <${Panel} title=${title} accent=${true} action=${html`
+        <div class="row g2">
+          ${extra || null}
+          <button class="btn primary sm" onClick=${openNew}>${newLabel}</button>
+        </div>`}>
+        <div class="scroll-y" style="max-height:64vh">
+          <table>
+            <thead><tr>${columns.map(c => html`<th>${c.label}</th>`)}<th></th></tr></thead>
+            <tbody>
+              ${items.length === 0 ? html`<tr><td colspan=${columns.length + 1} class="dim" style="text-align:center;padding:1.4rem">${emptyLabel}</td></tr>` :
+                items.map(row => html`
+                <tr>
+                  ${columns.map(c => html`<td>${c.render ? c.render(row) : (row[c.key] ?? "—")}</td>`)}
+                  <td>
+                    <div class="row g2" style="justify-content:flex-end">
+                      <button class="btn sm" onClick=${() => openEdit(row)}>Editar</button>
+                      <button class="btn sm danger" onClick=${() => doDelete(row)}>Excluir</button>
+                    </div>
+                  </td>
+                </tr>`)}
+            </tbody>
+          </table>
+        </div>
+      <//>
+      ${editing !== null ? html`
+        <${Modal} title=${editing.id ? "Editar registro" : "Novo registro"} onClose=${close}>
+          ${renderForm(editing, setEditing)}
+          ${err ? html`<div class="bad" style="font-size:.75rem;margin-top:.5rem">${err}</div>` : null}
+          <div class="row g2 mt2" style="justify-content:flex-end">
+            <button class="btn" onClick=${close} disabled=${busy}>Cancelar</button>
+            <button class="btn primary" onClick=${doSave} disabled=${busy}>${busy ? "Salvando…" : "Salvar"}</button>
+          </div>
+        <//>` : null}
+    <//>`;
+}
+
+/* ============== MERCADO PICKER ============== */
+function MercadoPicker({ token, onPick, onClose }) {
+  const [nome, setNome] = useState("");
+  const [posicao, setPosicao] = useState("");
+  const [posicoes, setPosicoes] = useState([]);
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState("");
+  useEffect(() => {
+    fetch(`${FLASK_API}/api/mercado/posicoes`, { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => r.json()).then(d => setPosicoes(d.posicoes || [])).catch(() => {});
+  }, []);
+  const buscar = async () => {
+    setLoading(true); setErr("");
+    try {
+      const params = new URLSearchParams({ por_pagina: "40" });
+      if (nome) params.set("nome", nome);
+      if (posicao) params.set("posicao", posicao);
+      const res = await fetch(`${FLASK_API}/api/mercado?${params}`, { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) throw new Error("Falha ao buscar no mercado");
+      const data = await res.json();
+      setResults(data.players || []);
+    } catch (e) { setErr(String(e.message || e)); }
+    setLoading(false);
+  };
+  useEffect(() => { buscar(); }, []);
+  return html`
+    <${Modal} title="Buscar no Mercado" onClose=${onClose}>
+      <div class="row g2 wrap" style="margin-bottom:.6rem">
+        <div style="flex:1;min-width:8rem"><${TextInput} value=${nome} onChange=${setNome} placeholder="Nome do jogador" /></div>
+        <div style="flex:1;min-width:7rem"><${Select} value=${posicao} onChange=${setPosicao} placeholder="Posição" options=${posicoes.map(p => ({ value: p, label: p }))} /></div>
+        <button class="btn primary sm" onClick=${buscar} disabled=${loading}>${loading ? "…" : "Buscar"}</button>
+      </div>
+      ${err ? html`<div class="bad" style="font-size:.75rem">${err}</div>` : null}
+      <div class="scroll-y" style="max-height:50vh">
+        ${results.map(p => html`
+          <div class="row between" style="padding:.4rem .2rem;border-bottom:1px solid rgba(255,255,255,.05);font-size:.78rem">
+            <div class="row g2">
+              <span class="pill dim">${p.rating ?? "—"}</span>
+              <span>${p.name}</span>
+              <span class="dim">${p.position}</span>
+              <span class="dim" style="font-size:.62rem">${p.version || ""}</span>
+            </div>
+            <button class="btn sm primary" onClick=${() => onPick(p)}>Usar</button>
+          </div>`)}
+        ${results.length === 0 && !loading ? html`<div class="dim" style="padding:1rem;text-align:center">Nenhum resultado</div>` : null}
+      </div>
+    <//>`;
+}
+
+/* ============== CARREIRAS ============== */
+function CarreirasSection({ d, bump }) {
+  const { careers } = d;
+  const save = async (values) => {
+    const row = { ...values };
+    delete row.created_at; delete row.updated_at;
+    ["current_funds","overall_wins","overall_draws","overall_losses"].forEach(k => { if (row[k] !== undefined && row[k] !== "") row[k] = Number(row[k]); });
+    if (row.id) { const { id, ...rest } = row; await sbUpdate("careers", id, rest); }
+    else { const { id, ...rest } = row; await sbInsert("careers", rest); }
+    bump();
+  };
+  const del = async (row) => { await sbDelete("careers", row.id); bump(); };
+  return html`
+    <${CrudSection}
+      title="Carreiras"
+      items=${careers || []}
+      initial=${{ status: "ATIVA", overall_wins: 0, overall_draws: 0, overall_losses: 0, current_funds: 0, game_edition: "EAFC 27" }}
+      columns=${[
+        { label: "Clube", key: "club_name" },
+        { label: "Edição", key: "game_edition" },
+        { label: "Temporada", key: "season" },
+        { label: "Status", render: r => html`<span class="pill ${r.status === "ATIVA" ? "ok" : "dim"}">${r.status}</span>` },
+        { label: "Caixa", render: r => money(r.current_funds) },
+      ]}
+      onSave=${save}
+      onDelete=${del}
+      renderForm=${(v, setV) => html`
+        <div class="formgrid">
+          <${Field} label="Nome da carreira"><${TextInput} value=${v.name} onChange=${bind(setV,"name")} /><//>
+          <${Field} label="Nome do clube"><${TextInput} value=${v.club_name} onChange=${bind(setV,"club_name")} /><//>
+          <${Field} label="Edição do jogo"><${TextInput} value=${v.game_edition} onChange=${bind(setV,"game_edition")} /><//>
+          <${Field} label="Temporada"><${TextInput} value=${v.season} onChange=${bind(setV,"season")} placeholder="2026/27" /><//>
+          <${Field} label="Status"><${Select} value=${v.status} onChange=${bind(setV,"status")} options=${[{value:"ATIVA",label:"Ativa"},{value:"INATIVA",label:"Inativa"},{value:"CONCLUIDA",label:"Concluída"}]} /><//>
+          <${Field} label="Caixa atual"><${TextInput} type="number" value=${v.current_funds} onChange=${bind(setV,"current_funds")} /><//>
+          <${Field} label="Era atual (texto)"><${TextInput} value=${v.current_era} onChange=${bind(setV,"current_era")} /><//>
+          <div class="full"><${Field} label="Objetivo principal"><${TextInput} value=${v.main_objective} onChange=${bind(setV,"main_objective")} /><//></div>
+          <${Field} label="Vitórias"><${TextInput} type="number" value=${v.overall_wins} onChange=${bind(setV,"overall_wins")} /><//>
+          <${Field} label="Empates"><${TextInput} type="number" value=${v.overall_draws} onChange=${bind(setV,"overall_draws")} /><//>
+          <${Field} label="Derrotas"><${TextInput} type="number" value=${v.overall_losses} onChange=${bind(setV,"overall_losses")} /><//>
+        </div>`}
+    />`;
+}
+
+/* ============== ELENCO ============== */
+function ElencoSection({ d, bump, token }) {
+  const { players } = d;
+  const [picking, setPicking] = useState(false);
+  const save = async (values) => {
+    const row = { ...values };
+    delete row.created_at; delete row.updated_at; delete row.current_card_id;
+    row.la_fabrica = !!row.la_fabrica;
+    ["initial_ovr","current_ovr","acquisition_value","market_value"].forEach(k => { row[k] = row[k] !== "" && row[k] != null ? Number(row[k]) : null; });
+    if (row.id) { const { id, ...rest } = row; await sbUpdate("players", id, rest); }
+    else { row.career_id = d.career.id; row.origin = row.origin || "MANUAL"; const { id, ...rest } = row; await sbInsert("players", rest); }
+    bump();
+  };
+  const del = async (row) => { await sbDelete("players", row.id); bump(); };
+  return html`
+    <${CrudSection}
+      title="Elenco"
+      items=${players || []}
+      initial=${{ club_status: "ATIVO", narrative_category: "ATUAL", origin: "MANUAL", la_fabrica: false }}
+      columns=${[
+        { label: "Nome", key: "short_name" },
+        { label: "Pos.", key: "main_position" },
+        { label: "OVR", render: r => html`<span class="tabular">${r.current_ovr}</span>` },
+        { label: "Tipo", key: "card_type" },
+        { label: "Status", render: r => html`<span class="pill ${r.club_status === "ATIVO" ? "ok" : "dim"}">${r.club_status}</span>` },
+        { label: "Valor", render: r => money(r.market_value) },
+      ]}
+      onSave=${save}
+      onDelete=${del}
+      renderForm=${(v, setV) => html`
+        <${Fragment}>
+          <button type="button" class="btn sm" style="margin-bottom:.6rem" onClick=${() => setPicking(true)}>🔍 Buscar do Mercado</button>
+          ${v.mercado_card_id ? html`<span class="pill info" style="margin-left:.4rem">Vinculado ao catálogo</span>` : null}
+          <div class="formgrid mt1">
+            <${Field} label="Nome completo"><${TextInput} value=${v.name} onChange=${bind(setV,"name")} /><//>
+            <${Field} label="Apelido/curto"><${TextInput} value=${v.short_name} onChange=${bind(setV,"short_name")} /><//>
+            <${Field} label="Posição"><${Select} value=${v.main_position} onChange=${bind(setV,"main_position")} options=${POSITIONS.map(p=>({value:p,label:p}))} placeholder="Selecione" /><//>
+            <${Field} label="Nacionalidade"><${TextInput} value=${v.nationality} onChange=${bind(setV,"nationality")} /><//>
+            <${Field} label="OVR inicial"><${TextInput} type="number" value=${v.initial_ovr} onChange=${bind(setV,"initial_ovr")} /><//>
+            <${Field} label="OVR atual"><${TextInput} type="number" value=${v.current_ovr} onChange=${bind(setV,"current_ovr")} /><//>
+            <${Field} label="Tipo de carta"><${Select} value=${v.card_type} onChange=${bind(setV,"card_type")} options=${CARD_TYPES.map(c=>({value:c,label:c}))} placeholder="Selecione" /><//>
+            <${Field} label="Status no clube"><${Select} value=${v.club_status} onChange=${bind(setV,"club_status")} options=${CLUB_STATUS.map(c=>({value:c,label:c}))} /><//>
+            <${Field} label="Categoria narrativa"><${Select} value=${v.narrative_category} onChange=${bind(setV,"narrative_category")} options=${NARRATIVE_CATS.map(c=>({value:c,label:c}))} /><//>
+            <${Field} label="Valor de mercado"><${TextInput} type="number" value=${v.market_value} onChange=${bind(setV,"market_value")} /><//>
+            <${Field} label="Valor pago"><${TextInput} type="number" value=${v.acquisition_value} onChange=${bind(setV,"acquisition_value")} /><//>
+            <${Field} label="Data de chegada"><${TextInput} type="date" value=${v.arrival_date} onChange=${bind(setV,"arrival_date")} /><//>
+            <${Field} label="Era de chegada"><${TextInput} value=${v.arrival_era} onChange=${bind(setV,"arrival_era")} /><//>
+            <div class="full"><${Checkbox} checked=${v.la_fabrica} onChange=${bind(setV,"la_fabrica")} label="É da La Fábrica (base)" /></div>
+            <div class="full"><${Field} label="Notas"><${TextInput} value=${v.notes} onChange=${bind(setV,"notes")} /><//></div>
+          </div>
+          ${picking ? html`<${MercadoPicker} token=${token} onClose=${()=>setPicking(false)} onPick=${(p) => {
+            setV(cur => ({ ...cur,
+              name: p.name, short_name: (p.name||"").split(" ").slice(-1)[0] || p.name,
+              main_position: p.position, initial_ovr: p.rating, current_ovr: p.rating,
+              card_type: p.version || "Ouro", mercado_card_id: p.id,
+            }));
+            setPicking(false);
+          }} />` : null}
+        <//>`}
+    />`;
+}
+
+/* ============== CONVOCAÇÕES ============== */
+function ConvocacoesSection({ d, bump }) {
+  const { callUps, formations, players, career } = d;
+  const [editing, setEditing] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
+  const openNew = () => {
+    const total = formationRows(formations[0]?.name || "4-3-3").reduce((a,b)=>a+b,0);
+    setEditing({ row: { formation: formations[0]?.name || "4-3-3", status: "planejada" }, starters: Array(total).fill(""), bench: Array(7).fill("") });
+  };
+  const openEdit = async (row) => {
+    const slots = await sbSelect("call_up_slots", { call_up_id: `eq.${row.id}`, order: "slot_index.asc" });
+    const total = formationRows(row.formation).reduce((a,b)=>a+b,0);
+    const starters = Array(total).fill(""), bench = Array(7).fill("");
+    slots.forEach(s => {
+      if (s.slot_type === "TITULAR" && s.slot_index < total) starters[s.slot_index] = s.player_id;
+      else if (s.slot_type === "BANCO" && s.slot_index < 7) bench[s.slot_index] = s.player_id;
+    });
+    setEditing({ row: { ...row }, starters, bench });
+  };
+  const close = () => { setEditing(null); setErr(""); };
+  const setFormation = (name) => {
+    const total = formationRows(name).reduce((a,b)=>a+b,0);
+    setEditing(cur => {
+      const starters = Array(total).fill("");
+      cur.starters.forEach((val, i) => { if (i < total) starters[i] = val; });
+      return { ...cur, row: { ...cur.row, formation: name }, starters };
+    });
+  };
+  const save = async () => {
+    setBusy(true); setErr("");
+    try {
+      const { row, starters, bench } = editing;
+      const payload = { ...row };
+      delete payload.created_at; delete payload.updated_at;
+      let callUpId = payload.id;
+      if (callUpId) { const { id, ...rest } = payload; await sbUpdate("call_ups", id, rest); }
+      else { payload.career_id = career.id; const { id, ...rest } = payload; const created = await sbInsert("call_ups", rest); callUpId = created[0].id; }
+      await sbDeleteWhere("call_up_slots", { call_up_id: `eq.${callUpId}` });
+      const rowsToInsert = [];
+      starters.forEach((pid, i) => { if (pid) rowsToInsert.push({ call_up_id: callUpId, career_id: career.id, slot_type: "TITULAR", slot_index: i, player_id: pid, position: (players.find(p=>p.id===pid)||{}).main_position || null }); });
+      bench.forEach((pid, i) => { if (pid) rowsToInsert.push({ call_up_id: callUpId, career_id: career.id, slot_type: "BANCO", slot_index: i, player_id: pid, position: (players.find(p=>p.id===pid)||{}).main_position || null }); });
+      if (rowsToInsert.length) await sbInsert("call_up_slots", rowsToInsert);
+      close(); bump();
+    } catch (e) { setErr(String(e.message || e)); }
+    setBusy(false);
+  };
+  const del = async (row) => {
+    if (!confirm("Excluir esta convocação?")) return;
+    await sbDeleteWhere("call_up_slots", { call_up_id: `eq.${row.id}` });
+    await sbDelete("call_ups", row.id);
+    bump();
+  };
+  const playerOptions = players.map(p => ({ value: p.id, label: `${p.short_name||p.name} (${p.current_ovr} ${p.main_position})` }));
+  return html`
+    <${Fragment}>
+      <${Panel} title="Convocações" accent=${true} action=${html`<button class="btn primary sm" onClick=${openNew}>+ Nova</button>`}>
+        <div class="scroll-y" style="max-height:64vh">
+          <table>
+            <thead><tr><th>Nome</th><th>Competição</th><th>Formação</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              ${callUps.length === 0 ? html`<tr><td colspan="5" class="dim" style="text-align:center;padding:1.4rem">Nenhuma convocação ainda</td></tr>` : callUps.map(row => html`
+                <tr>
+                  <td>${row.name}</td><td>${row.competition||"—"}</td><td>${row.formation}</td>
+                  <td><span class="pill ${row.status==="ativa"?"ok":"dim"}">${row.status}</span></td>
+                  <td><div class="row g2" style="justify-content:flex-end">
+                    <button class="btn sm" onClick=${() => openEdit(row)}>Editar</button>
+                    <button class="btn sm danger" onClick=${() => del(row)}>Excluir</button>
+                  </div></td>
+                </tr>`)}
+            </tbody>
+          </table>
+        </div>
+      <//>
+      ${editing ? html`
+        <${Modal} title=${editing.row.id ? "Editar convocação" : "Nova convocação"} onClose=${close}>
+          <div class="formgrid">
+            <${Field} label="Nome"><${TextInput} value=${editing.row.name} onChange=${v => setEditing(c=>({...c,row:{...c.row,name:v}}))} /><//>
+            <${Field} label="Competição"><${TextInput} value=${editing.row.competition} onChange=${v => setEditing(c=>({...c,row:{...c.row,competition:v}}))} /><//>
+            <${Field} label="Formação"><${Select} value=${editing.row.formation} onChange=${setFormation} options=${formations.map(f=>({value:f.name,label:f.name}))} /><//>
+            <${Field} label="Tática (texto)"><${TextInput} value=${editing.row.tactic} onChange=${v => setEditing(c=>({...c,row:{...c.row,tactic:v}}))} /><//>
+            <${Field} label="Código EAFC"><${TextInput} value=${editing.row.eafc_code} onChange=${v => setEditing(c=>({...c,row:{...c.row,eafc_code:v}}))} /><//>
+            <${Field} label="Data"><${TextInput} type="date" value=${editing.row.played_on} onChange=${v => setEditing(c=>({...c,row:{...c.row,played_on:v}}))} /><//>
+            <${Field} label="Status"><${Select} value=${editing.row.status} onChange=${v => setEditing(c=>({...c,row:{...c.row,status:v}}))} options=${[{value:"ativa",label:"Ativa"},{value:"planejada",label:"Planejada"},{value:"arquivada",label:"Arquivada"}]} /><//>
+          </div>
+          <div class="hairline-h mt2"></div>
+          <div class="muted upp" style="font-size:.62rem;letter-spacing:.16em;margin-bottom:.4rem">Titulares</div>
+          <div class="grid" style="grid-template-columns:1fr 1fr;gap:.4rem .6rem">
+            ${editing.starters.map((pid, i) => html`
+              <${Select} value=${pid} onChange=${v => setEditing(c=>{const s=[...c.starters];s[i]=v;return {...c,starters:s};})} options=${playerOptions} placeholder="${i+1}ª posição — vazio" />`)}
+          </div>
+          <div class="muted upp mt2" style="font-size:.62rem;letter-spacing:.16em;margin-bottom:.4rem">Banco</div>
+          <div class="grid" style="grid-template-columns:1fr 1fr;gap:.4rem .6rem">
+            ${editing.bench.map((pid, i) => html`
+              <${Select} value=${pid} onChange=${v => setEditing(c=>{const b=[...c.bench];b[i]=v;return {...c,bench:b};})} options=${playerOptions} placeholder="Banco ${i+1} — vazio" />`)}
+          </div>
+          ${err ? html`<div class="bad" style="font-size:.75rem;margin-top:.5rem">${err}</div>` : null}
+          <div class="row g2 mt2" style="justify-content:flex-end">
+            <button class="btn" onClick=${close} disabled=${busy}>Cancelar</button>
+            <button class="btn primary" onClick=${save} disabled=${busy}>${busy?"Salvando…":"Salvar"}</button>
+          </div>
+        <//>` : null}
+    <//>`;
+}
+
+/* ============== LA FÁBRICA ============== */
+function FabricaSection({ d, bump }) {
+  const { evos, players } = d;
+  const playerOptions = players.map(p => ({ value: p.id, label: p.short_name||p.name }));
+  const byId = Object.fromEntries(players.map(p=>[p.id,p]));
+  const save = async (values) => {
+    const row = { ...values };
+    delete row.created_at; delete row.updated_at;
+    ["ovr_before","ovr_after","cost","chain"].forEach(k => { row[k] = row[k] !== "" && row[k] != null ? Number(row[k]) : null; });
+    if (row.id) { const {id,...rest}=row; await sbUpdate("player_evos", id, rest); }
+    else { row.career_id = d.career.id; const {id,...rest}=row; await sbInsert("player_evos", rest); }
+    bump();
+  };
+  const del = async (row) => { await sbDelete("player_evos", row.id); bump(); };
+  return html`
+    <${CrudSection}
+      title="La Fábrica — EVOs"
+      items=${evos || []}
+      initial=${{ status: "ATIVA", chain: 1 }}
+      columns=${[
+        { label: "Jogador", render: r => (byId[r.player_id]||{}).short_name || (byId[r.player_id]||{}).name || "—" },
+        { label: "EVO", key: "name" },
+        { label: "Data", key: "applied_at" },
+        { label: "OVR", render: r => html`<span class="tabular">${r.ovr_before} → ${r.ovr_after}</span>` },
+        { label: "Custo", render: r => money(r.cost) },
+      ]}
+      onSave=${save}
+      onDelete=${del}
+      renderForm=${(v, setV) => html`
+        <div class="formgrid">
+          <div class="full"><${Field} label="Jogador"><${Select} value=${v.player_id} onChange=${bind(setV,"player_id")} options=${playerOptions} placeholder="Selecione" /><//></div>
+          <div class="full"><${Field} label="Nome da EVO"><${TextInput} value=${v.name} onChange=${bind(setV,"name")} /><//></div>
+          <${Field} label="Data"><${TextInput} type="date" value=${v.applied_at} onChange=${bind(setV,"applied_at")} /><//>
+          <${Field} label="Custo"><${TextInput} type="number" value=${v.cost} onChange=${bind(setV,"cost")} /><//>
+          <${Field} label="OVR antes"><${TextInput} type="number" value=${v.ovr_before} onChange=${bind(setV,"ovr_before")} /><//>
+          <${Field} label="OVR depois"><${TextInput} type="number" value=${v.ovr_after} onChange=${bind(setV,"ovr_after")} /><//>
+          <${Field} label="Status"><${Select} value=${v.status} onChange=${bind(setV,"status")} options=${[{value:"ATIVA",label:"Ativa"},{value:"RESETADA",label:"Resetada"}]} /><//>
+          <${Field} label="Corrente (chain)"><${TextInput} type="number" value=${v.chain} onChange=${bind(setV,"chain")} /><//>
+        </div>`}
+    />`;
+}
+
+/* ============== TÁTICAS ============== */
+function TaticasSection({ d, bump }) {
+  const { tactics, formations } = d;
+  const save = async (values) => {
+    const row = { ...values }; delete row.created_at; delete row.updated_at;
+    if (row.id) { const {id,...rest}=row; await sbUpdate("tactics", id, rest); }
+    else { row.career_id = d.career.id; const {id,...rest}=row; await sbInsert("tactics", rest); }
+    bump();
+  };
+  const del = async (row) => { await sbDelete("tactics", row.id); bump(); };
+  return html`
+    <${CrudSection}
+      title="Táticas"
+      items=${tactics || []}
+      initial=${{ status: "ATIVA" }}
+      columns=${[
+        { label: "Nome", key: "name" },
+        { label: "Código", key: "eafc_code" },
+        { label: "Status", render: r => html`<span class="pill ${r.status==="ATIVA"?"ok":"dim"}">${r.status}</span>` },
+      ]}
+      onSave=${save}
+      onDelete=${del}
+      renderForm=${(v, setV) => html`
+        <div class="formgrid">
+          <${Field} label="Nome"><${TextInput} value=${v.name} onChange=${bind(setV,"name")} /><//>
+          <${Field} label="Código EAFC"><${TextInput} value=${v.eafc_code} onChange=${bind(setV,"eafc_code")} /><//>
+          <${Field} label="Formação"><${Select} value=${v.formation_id} onChange=${bind(setV,"formation_id")} options=${formations.map(f=>({value:f.id,label:f.name}))} placeholder="Nenhuma" /><//>
+          <${Field} label="Status"><${Select} value=${v.status} onChange=${bind(setV,"status")} options=${[{value:"ATIVA",label:"Ativa"},{value:"ARQUIVADA",label:"Arquivada"}]} /><//>
+          <div class="full"><${Field} label="Descrição"><${TextInput} value=${v.description} onChange=${bind(setV,"description")} /><//></div>
+        </div>`}
+    />`;
+}
+
+/* ============== COMPETIÇÕES ============== */
+function CampaignsEditor({ competition, campaigns, players, careerId, bump }) {
+  const playerOptions = players.map(p => ({ value: p.id, label: p.short_name||p.name }));
+  const save = async (values) => {
+    const row = { ...values }; delete row.created_at; delete row.updated_at;
+    ["wins","draws","losses","round_number","top_scorer_goals","top_assister_assists"].forEach(k => { if (row[k] !== undefined && row[k] !== "") row[k] = Number(row[k]); });
+    if (row.id) { const {id,...rest}=row; await sbUpdate("competition_campaigns", id, rest); }
+    else { row.competition_id = competition.id; row.career_id = careerId; const {id,...rest}=row; await sbInsert("competition_campaigns", rest); }
+    bump();
+  };
+  const del = async (row) => { await sbDelete("competition_campaigns", row.id); bump(); };
+  return html`
+    <${CrudSection}
+      title=${`Rodadas — ${competition.name}`}
+      items=${campaigns}
+      initial=${{ wins: 0, draws: 0, losses: 0 }}
+      columns=${[
+        { label: "Data", key: "played_on" },
+        { label: "Rodada", key: "round_number" },
+        { label: "V-E-D", render: r => `${r.wins||0}-${r.draws||0}-${r.losses||0}` },
+        { label: "Rank", key: "final_rank" },
+      ]}
+      onSave=${save}
+      onDelete=${del}
+      renderForm=${(v, setV) => html`
+        <div class="formgrid">
+          <${Field} label="Data"><${TextInput} type="date" value=${v.played_on} onChange=${bind(setV,"played_on")} /><//>
+          <${Field} label="Nº da rodada"><${TextInput} type="number" value=${v.round_number} onChange=${bind(setV,"round_number")} /><//>
+          <${Field} label="Vitórias"><${TextInput} type="number" value=${v.wins} onChange=${bind(setV,"wins")} /><//>
+          <${Field} label="Empates"><${TextInput} type="number" value=${v.draws} onChange=${bind(setV,"draws")} /><//>
+          <${Field} label="Derrotas"><${TextInput} type="number" value=${v.losses} onChange=${bind(setV,"losses")} /><//>
+          <${Field} label="Rank final"><${TextInput} value=${v.final_rank} onChange=${bind(setV,"final_rank")} /><//>
+          <${Field} label="Craque (MVP)"><${Select} value=${v.mvp_player_id} onChange=${bind(setV,"mvp_player_id")} options=${playerOptions} placeholder="—" /><//>
+          <${Field} label="Artilheiro"><${Select} value=${v.top_scorer_player_id} onChange=${bind(setV,"top_scorer_player_id")} options=${playerOptions} placeholder="—" /><//>
+          <${Field} label="Gols do artilheiro"><${TextInput} type="number" value=${v.top_scorer_goals} onChange=${bind(setV,"top_scorer_goals")} /><//>
+          <div class="full"><${Field} label="Notas"><${TextInput} value=${v.notes} onChange=${bind(setV,"notes")} /><//></div>
+        </div>`}
+    />`;
+}
+
+function CompeticoesSection({ d, bump }) {
+  const { competitions, campaigns, players } = d;
+  const [campEditorFor, setCampEditorFor] = useState(null);
+  const save = async (values) => {
+    const row = { ...values }; delete row.created_at; delete row.updated_at;
+    if (row.id) { const {id,...rest}=row; await sbUpdate("competitions", id, rest); }
+    else { row.career_id = d.career.id; const {id,...rest}=row; await sbInsert("competitions", rest); }
+    bump();
+  };
+  const del = async (row) => { await sbDelete("competitions", row.id); bump(); };
+  return html`
+    <${Fragment}>
+      <${CrudSection}
+        title="Competições"
+        items=${competitions || []}
+        initial=${{ status: "EM_ANDAMENTO", category: "LIGA" }}
+        columns=${[
+          { label: "Nome", key: "name" },
+          { label: "Categoria", key: "category" },
+          { label: "Status", render: r => html`<span class="pill ${r.status==="EM_ANDAMENTO"?"info":"dim"}">${r.status}</span>` },
+          { label: "Rodadas", render: r => campaigns.filter(c=>c.competition_id===r.id).length },
+        ]}
+        onSave=${save}
+        onDelete=${del}
+        renderForm=${(v, setV) => html`
+          <div class="formgrid">
+            <${Field} label="Nome"><${TextInput} value=${v.name} onChange=${bind(setV,"name")} /><//>
+            <${Field} label="Categoria"><${Select} value=${v.category} onChange=${bind(setV,"category")} options=${[{value:"CHAMPIONS_LEAGUE",label:"FUT Champions"},{value:"LIGA",label:"Liga"},{value:"COPA_DOMESTICA",label:"Copa"},{value:"AMISTOSO",label:"Amistoso"}]} /><//>
+            <${Field} label="Temporada"><${TextInput} value=${v.season} onChange=${bind(setV,"season")} /><//>
+            <${Field} label="Status"><${Select} value=${v.status} onChange=${bind(setV,"status")} options=${[{value:"EM_ANDAMENTO",label:"Em andamento"},{value:"CONCLUIDA",label:"Concluída"},{value:"PLANEJADA",label:"Planejada"}]} /><//>
+            <${Field} label="Início"><${TextInput} type="date" value=${v.started_on} onChange=${bind(setV,"started_on")} /><//>
+            <${Field} label="Próxima rodada"><${TextInput} type="date" value=${v.starts_on} onChange=${bind(setV,"starts_on")} /><//>
+            <div class="full"><${Field} label="Notas"><${TextInput} value=${v.notes} onChange=${bind(setV,"notes")} /><//></div>
+          </div>`}
+      />
+      <${Panel} title="Rodadas / Campanhas" accent=${true}>
+        <div class="dim" style="font-size:.75rem;margin-bottom:.5rem">Selecione uma competição pra ver e lançar as rodadas.</div>
+        <div class="row g2 wrap" style="margin-bottom:.6rem">
+          ${(competitions||[]).map(c => html`<button class="btn sm ${campEditorFor?.id===c.id?"primary":""}" onClick=${() => setCampEditorFor(c)}>${c.name}</button>`)}
+        </div>
+        ${campEditorFor ? html`<${CampaignsEditor} competition=${campEditorFor} campaigns=${campaigns.filter(c=>c.competition_id===campEditorFor.id)} players=${players} careerId=${d.career.id} bump=${bump} />` : null}
+      <//>
+    <//>`;
+}
+
+/* ============== FINANÇAS ============== */
+function FinancasSection({ d, bump }) {
+  const { txFull, goals, career, txAll } = d;
+  const income = txAll.filter(t=>t.kind==="RECEITA").reduce((s,t)=>s+Number(t.amount),0);
+  const expenses = txAll.filter(t=>t.kind==="DESPESA").reduce((s,t)=>s+Number(t.amount),0);
+  const caixa = Number(career.current_funds||0) + income - expenses;
+  const saveTx = async (values) => {
+    const row = { ...values }; delete row.created_at; delete row.updated_at;
+    row.amount = row.amount ? Number(row.amount) : 0;
+    if (row.id) { const {id,...rest}=row; await sbUpdate("financial_transactions", id, rest); }
+    else { row.career_id = career.id; const {id,...rest}=row; await sbInsert("financial_transactions", rest); }
+    bump();
+  };
+  const delTx = async (row) => { await sbDelete("financial_transactions", row.id); bump(); };
+  const saveGoal = async (values) => {
+    const row = { ...values }; delete row.created_at; delete row.updated_at;
+    row.target_value = row.target_value ? Number(row.target_value) : 0;
+    row.is_primary = !!row.is_primary;
+    if (row.id) { const {id,...rest}=row; await sbUpdate("financial_goals", id, rest); }
+    else { row.career_id = career.id; const {id,...rest}=row; await sbInsert("financial_goals", rest); }
+    bump();
+  };
+  const delGoal = async (row) => { await sbDelete("financial_goals", row.id); bump(); };
+  return html`
+    <${Fragment}>
+      <${Panel} title="Resumo Financeiro" accent=${true} bodyStyle="display:flex;gap:1.6rem;flex-wrap:wrap">
+        <div><div class="muted upp" style="font-size:.58rem">Caixa atual</div><div class="stat gold" style="font-size:1.6rem">${money(caixa)}</div></div>
+        <div><div class="muted upp" style="font-size:.58rem">Receitas totais</div><div class="stat ok" style="font-size:1.6rem">${money(income)}</div></div>
+        <div><div class="muted upp" style="font-size:.58rem">Despesas totais</div><div class="stat bad" style="font-size:1.6rem">${money(expenses)}</div></div>
+      <//>
+      <${CrudSection}
+        title="Transações"
+        items=${txFull || []}
+        initial=${{ kind: "DESPESA", occurred_on: new Date().toISOString().slice(0,10) }}
+        columns=${[
+          { label: "Data", key: "occurred_on" },
+          { label: "Descrição", key: "description" },
+          { label: "Categoria", key: "category" },
+          { label: "Valor", render: r => html`<span class="${r.kind==="RECEITA"?"ok":"bad"} tabular">${r.kind==="RECEITA"?"+":"−"}${money(r.amount)}</span>` },
+        ]}
+        onSave=${saveTx} onDelete=${delTx}
+        renderForm=${(v, setV) => html`
+          <div class="formgrid">
+            <${Field} label="Data"><${TextInput} type="date" value=${v.occurred_on} onChange=${bind(setV,"occurred_on")} /><//>
+            <${Field} label="Tipo"><${Select} value=${v.kind} onChange=${bind(setV,"kind")} options=${[{value:"RECEITA",label:"Receita"},{value:"DESPESA",label:"Despesa"}]} /><//>
+            <div class="full"><${Field} label="Descrição"><${TextInput} value=${v.description} onChange=${bind(setV,"description")} /><//></div>
+            <${Field} label="Categoria"><${TextInput} value=${v.category} onChange=${bind(setV,"category")} /><//>
+            <${Field} label="Valor"><${TextInput} type="number" value=${v.amount} onChange=${bind(setV,"amount")} /><//>
+          </div>`}
+      />
+      <${CrudSection}
+        title="Objetivos Financeiros"
+        items=${goals || []}
+        initial=${{ status: "ATIVO" }}
+        columns=${[
+          { label: "Nome", key: "name" },
+          { label: "Alvo", render: r => money(r.target_value) },
+          { label: "Status", render: r => html`<span class="pill ${r.status==="CONCLUIDO"?"ok":"dim"}">${r.status}</span>` },
+          { label: "Principal", render: r => r.is_primary ? "★" : "" },
+        ]}
+        onSave=${saveGoal} onDelete=${delGoal}
+        renderForm=${(v, setV) => html`
+          <div class="formgrid">
+            <div class="full"><${Field} label="Nome"><${TextInput} value=${v.name} onChange=${bind(setV,"name")} /><//></div>
+            <${Field} label="Valor alvo"><${TextInput} type="number" value=${v.target_value} onChange=${bind(setV,"target_value")} /><//>
+            <${Field} label="Status"><${Select} value=${v.status} onChange=${bind(setV,"status")} options=${[{value:"ATIVO",label:"Ativo"},{value:"CONCLUIDO",label:"Concluído"},{value:"CANCELADO",label:"Cancelado"}]} /><//>
+            <div class="full"><${Checkbox} checked=${v.is_primary} onChange=${bind(setV,"is_primary")} label="Objetivo principal" /></div>
+            <div class="full"><${Field} label="Notas"><${TextInput} value=${v.notes} onChange=${bind(setV,"notes")} /><//></div>
+          </div>`}
+      />
+    <//>`;
+}
+
+/* ============== ERAS ============== */
+function EraDetail({ era, reqs, objs, miles, careerId, bump }) {
+  const saveReq = async (values) => {
+    const row = { ...values }; delete row.created_at; delete row.updated_at;
+    row.target_value = row.target_value ? Number(row.target_value) : 0;
+    row.required = !!row.required; row.manual_done = !!row.manual_done;
+    row.sort_order = row.sort_order ? Number(row.sort_order) : reqs.length + 1;
+    if (row.id) { const {id,...rest}=row; await sbUpdate("era_requirements", id, rest); }
+    else { row.era_id = era.id; row.career_id = careerId; const {id,...rest}=row; await sbInsert("era_requirements", rest); }
+    bump();
+  };
+  const delReq = async (row) => { await sbDelete("era_requirements", row.id); bump(); };
+  const saveObj = async (values) => {
+    const row = { ...values }; delete row.created_at; delete row.updated_at;
+    row.required = !!row.required; row.progress = row.progress ? Number(row.progress) : 0;
+    row.sort_order = row.sort_order ? Number(row.sort_order) : objs.length + 1;
+    if (row.id) { const {id,...rest}=row; await sbUpdate("era_objectives", id, rest); }
+    else { row.era_id = era.id; row.career_id = careerId; const {id,...rest}=row; await sbInsert("era_objectives", rest); }
+    bump();
+  };
+  const delObj = async (row) => { await sbDelete("era_objectives", row.id); bump(); };
+  const saveMile = async (values) => {
+    const row = { ...values }; delete row.created_at; delete row.updated_at;
+    if (row.id) { const {id,...rest}=row; await sbUpdate("era_milestones", id, rest); }
+    else { row.era_id = era.id; row.career_id = careerId; const {id,...rest}=row; await sbInsert("era_milestones", rest); }
+    bump();
+  };
+  const delMile = async (row) => { await sbDelete("era_milestones", row.id); bump(); };
+  return html`
+    <${Fragment}>
+      <${CrudSection} title="Requisitos" items=${reqs}
+        initial=${{ kind: "QUANTIDADE_ADQUIRIDA", required: true, target_value: 1, player_filter: "QUALQUER" }}
+        columns=${[
+          { label: "Descrição", key: "description" },
+          { label: "Tipo", key: "kind" },
+          { label: "Alvo", key: "target_value" },
+          { label: "Obrig.", render: r => r.required ? "Sim" : "Não" },
+        ]}
+        onSave=${saveReq} onDelete=${delReq}
+        renderForm=${(v, setV) => html`
+          <div class="formgrid">
+            <div class="full"><${Field} label="Descrição"><${TextInput} value=${v.description} onChange=${bind(setV,"description")} /><//></div>
+            <${Field} label="Tipo"><${Select} value=${v.kind} onChange=${bind(setV,"kind")} options=${[
+              {value:"QUANTIDADE_ADQUIRIDA",label:"Qtd. adquirida"},
+              {value:"QUANTIDADE_CONVOCADA",label:"Qtd. convocada"},
+              {value:"LA_FABRICA",label:"La Fábrica (qtd.)"},
+              {value:"JOVENS_DESENVOLVIDOS",label:"Jovens desenvolvidos"},
+              {value:"OBJETIVO_MANUAL",label:"Manual"},
+            ]} /><//>
+            <${Field} label="Categoria do jogador"><${Select} value=${v.player_category} onChange=${bind(setV,"player_category")} options=${NARRATIVE_CATS.map(c=>({value:c,label:c}))} placeholder="Qualquer" /><//>
+            <${Field} label="Filtro"><${Select} value=${v.player_filter} onChange=${bind(setV,"player_filter")} options=${[{value:"QUALQUER",label:"Qualquer"},{value:"LA_FABRICA",label:"La Fábrica"}]} /><//>
+            <${Field} label="Valor alvo"><${TextInput} type="number" value=${v.target_value} onChange=${bind(setV,"target_value")} /><//>
+            <${Field} label="Ordem"><${TextInput} type="number" value=${v.sort_order} onChange=${bind(setV,"sort_order")} /><//>
+            <div class="full"><${Checkbox} checked=${v.required} onChange=${bind(setV,"required")} label="Obrigatório" /></div>
+            ${v.kind === "OBJETIVO_MANUAL" ? html`<div class="full"><${Checkbox} checked=${v.manual_done} onChange=${bind(setV,"manual_done")} label="Concluído" /></div>` : null}
+          </div>`}
+      />
+      <${CrudSection} title="Objetivos" items=${objs}
+        initial=${{ status: "PENDENTE", required: false, progress: 0 }}
+        columns=${[
+          { label: "Título", key: "title" },
+          { label: "Tipo", key: "kind" },
+          { label: "Status", render: r => html`<span class="pill ${r.status==="CONCLUIDO"?"ok":"dim"}">${r.status}</span>` },
+        ]}
+        onSave=${saveObj} onDelete=${delObj}
+        renderForm=${(v, setV) => html`
+          <div class="formgrid">
+            <div class="full"><${Field} label="Título"><${TextInput} value=${v.title} onChange=${bind(setV,"title")} /><//></div>
+            <div class="full"><${Field} label="Descrição"><${TextInput} value=${v.description} onChange=${bind(setV,"description")} /><//></div>
+            <${Field} label="Tipo"><${TextInput} value=${v.kind} onChange=${bind(setV,"kind")} placeholder="COMPETICAO, FINANCEIRO, LA_FABRICA…" /><//>
+            <${Field} label="Status"><${Select} value=${v.status} onChange=${bind(setV,"status")} options=${[{value:"PENDENTE",label:"Pendente"},{value:"EM_ANDAMENTO",label:"Em andamento"},{value:"CONCLUIDO",label:"Concluído"}]} /><//>
+            <${Field} label="Progresso (%)"><${TextInput} type="number" value=${v.progress} onChange=${bind(setV,"progress")} /><//>
+            <div class="full"><${Checkbox} checked=${v.required} onChange=${bind(setV,"required")} label="Obrigatório" /></div>
+          </div>`}
+      />
+      <${CrudSection} title="Marcos (linha do tempo)" items=${miles}
+        initial=${{ category: "NARRATIVA" }}
+        columns=${[
+          { label: "Data", key: "occurred_on" },
+          { label: "Título", key: "title" },
+          { label: "Categoria", key: "category" },
+        ]}
+        onSave=${saveMile} onDelete=${delMile}
+        renderForm=${(v, setV) => html`
+          <div class="formgrid">
+            <${Field} label="Data"><${TextInput} type="date" value=${v.occurred_on} onChange=${bind(setV,"occurred_on")} /><//>
+            <${Field} label="Categoria"><${TextInput} value=${v.category} onChange=${bind(setV,"category")} placeholder="NARRATIVA, CONTRATACAO, EVO…" /><//>
+            <div class="full"><${Field} label="Título"><${TextInput} value=${v.title} onChange=${bind(setV,"title")} /><//></div>
+            <div class="full"><${Field} label="Descrição"><${TextInput} value=${v.description} onChange=${bind(setV,"description")} /><//></div>
+          </div>`}
+      />
+    <//>`;
+}
+
+function ErasSection({ d, bump }) {
+  const { eras, eraReqs, eraObjs, eraMiles, goals } = d;
+  const [openEra, setOpenEra] = useState(null);
+  const save = async (values) => {
+    const row = { ...values }; delete row.created_at; delete row.updated_at;
+    row.order_number = row.order_number ? Number(row.order_number) : 1;
+    row.financial_goal_required = !!row.financial_goal_required;
+    if (row.id) { const {id,...rest}=row; await sbUpdate("eras", id, rest); }
+    else { row.career_id = d.career.id; const {id,...rest}=row; await sbInsert("eras", rest); }
+    bump();
+  };
+  const del = async (row) => { await sbDelete("eras", row.id); bump(); };
+  return html`
+    <${Fragment}>
+      <${CrudSection}
+        title="Eras"
+        items=${eras || []}
+        initial=${{ status: "PLANEJADA", order_number: (eras||[]).length + 1, financial_goal_required: false }}
+        columns=${[
+          { label: "Nº", render: r => roman(r.order_number) },
+          { label: "Nome", key: "name" },
+          { label: "Status", render: r => html`<span class="pill ${r.status==="ATIVA"?"ok":"dim"}">${r.status}</span>` },
+        ]}
+        onSave=${save} onDelete=${del}
+        renderForm=${(v, setV) => html`
+          <div class="formgrid">
+            <${Field} label="Número (ordem)"><${TextInput} type="number" value=${v.order_number} onChange=${bind(setV,"order_number")} /><//>
+            <${Field} label="Nome"><${TextInput} value=${v.name} onChange=${bind(setV,"name")} /><//>
+            <${Field} label="Subtítulo"><${TextInput} value=${v.subtitle} onChange=${bind(setV,"subtitle")} /><//>
+            <${Field} label="Símbolo"><${TextInput} value=${v.symbol} onChange=${bind(setV,"symbol")} /><//>
+            <${Field} label="Status"><${Select} value=${v.status} onChange=${bind(setV,"status")} options=${[{value:"ATIVA",label:"Ativa"},{value:"PLANEJADA",label:"Planejada"},{value:"CONCLUIDA",label:"Concluída"}]} /><//>
+            <${Field} label="Tema"><${TextInput} value=${v.theme} onChange=${bind(setV,"theme")} /><//>
+            <${Field} label="Início"><${TextInput} type="date" value=${v.started_on} onChange=${bind(setV,"started_on")} /><//>
+            <${Field} label="Fim"><${TextInput} type="date" value=${v.ended_on} onChange=${bind(setV,"ended_on")} /><//>
+            <${Field} label="Objetivo financeiro"><${Select} value=${v.financial_goal_id} onChange=${bind(setV,"financial_goal_id")} options=${(goals||[]).map(g=>({value:g.id,label:g.name}))} placeholder="Nenhum" /><//>
+            <div class="full"><${Checkbox} checked=${v.financial_goal_required} onChange=${bind(setV,"financial_goal_required")} label="Objetivo financeiro obrigatório p/ concluir" /></div>
+            <div class="full"><${Field} label="Descrição"><${TextInput} value=${v.description} onChange=${bind(setV,"description")} /><//></div>
+          </div>`}
+      />
+      <${Panel} title="Requisitos, Objetivos e Marcos" accent=${true}>
+        <div class="row g2 wrap" style="margin-bottom:.6rem">
+          ${(eras||[]).map(e => html`<button class="btn sm ${openEra?.id===e.id?"primary":""}" onClick=${()=>setOpenEra(e)}>${roman(e.order_number)} — ${e.name}</button>`)}
+        </div>
+        ${openEra ? html`<${EraDetail} era=${openEra} reqs=${eraReqs.filter(r=>r.era_id===openEra.id)} objs=${eraObjs.filter(o=>o.era_id===openEra.id)} miles=${eraMiles.filter(m=>m.era_id===openEra.id)} careerId=${d.career.id} bump=${bump} />` : html`<div class="dim" style="font-size:.75rem">Selecione uma Era acima</div>`}
+      <//>
+    <//>`;
+}
+
+/* ============== SIDEBAR + APP ============== */
+const NAV = [
+  { key: "carreiras", label: "Carreiras" },
+  { key: "elenco", label: "Elenco" },
+  { key: "convocacoes", label: "Convocações" },
+  { key: "fabrica", label: "La Fábrica" },
+  { key: "taticas", label: "Táticas" },
+  { key: "competicoes", label: "Competições" },
+  { key: "financas", label: "Finanças" },
+  { key: "eras", label: "Eras" },
+];
+
+function Sidebar({ active, onSelect, usuario, clubName }) {
+  return html`
+    <nav class="side">
+      <div class="side-scroll">
+        <div class="brand">
+          <div class="name">J90</div>
+          <div class="sub">Career UT</div>
+        </div>
+        <div class="hr"></div>
+        <div class="navgroup-label">Painel</div>
+        <button class="navitem ${active==="central"?"active":""}" onClick=${()=>onSelect("central")}>Central do Clube</button>
+        <div class="navgroup-label">Gestão</div>
+        ${NAV.map(n => html`<button class="navitem ${active===n.key?"active":""}" onClick=${()=>onSelect(n.key)}>${n.label}</button>`)}
+      </div>
+      <div class="side-foot">
+        <div class="club-chip">
+          <div class="crest">${(clubName||"—").slice(0,3).toUpperCase()}</div>
+          <div>
+            <div style="font-size:.72rem;font-weight:600">${clubName || "—"}</div>
+            <div class="dim" style="font-size:.6rem">${usuario}</div>
+          </div>
+        </div>
+      </div>
+    </nav>`;
+}
+
+function App() {
+  const auth = useAuthGate();
+  const [section, setSection] = useState("central");
+  const [refreshKey, setRefreshKey] = useState(0);
+  const bump = () => setRefreshKey(k => k + 1);
+  const d = useCareerData(refreshKey);
+  let token = null;
+  try { token = localStorage.getItem(TOKEN_KEY); } catch {}
+
+  if (auth.status === "checking") return html`<div class="access-gate"><div class="dim disp upp">Carregando…</div></div>`;
+  if (auth.status === "denied") return html`<${AccessGate} />`;
+  if (d.loading) return html`<div class="access-gate"><div class="dim disp upp">Carregando carreira…</div></div>`;
+  if (d.error) return html`<div class="access-gate"><div class="bad">Erro ao carregar: ${d.error}</div></div>`;
+
+  if (!d.career) {
+    return html`
+      <div class="shell">
+        <${Sidebar} active="carreiras" onSelect=${()=>{}} usuario=${auth.usuario} clubName="—" />
+        <div class="main">
+          <div class="panel accent" style="padding:1rem 1.2rem;margin-bottom:.2rem">
+            <div class="gold disp upp" style="font-size:1.1rem;margin-bottom:.2rem">Nenhuma carreira ainda</div>
+            <div class="dim" style="font-size:.8rem">Crie a primeira carreira abaixo pra liberar o resto do painel.</div>
+          </div>
+          <${CarreirasSection} d=${{ careers: d.careers || [] }} bump=${bump} />
+        </div>
+      </div>`;
+  }
+
+  return html`
+    <div class="shell">
+      <${Sidebar} active=${section} onSelect=${setSection} usuario=${auth.usuario} clubName=${d.career.club_name} />
+      <div class="main">
+        ${section === "central" ? html`<${CentralDoClube} d=${d} bump=${bump} />` : null}
+        ${section === "carreiras" ? html`<${CarreirasSection} d=${d} bump=${bump} />` : null}
+        ${section === "elenco" ? html`<${ElencoSection} d=${d} bump=${bump} token=${token} />` : null}
+        ${section === "convocacoes" ? html`<${ConvocacoesSection} d=${d} bump=${bump} />` : null}
+        ${section === "fabrica" ? html`<${FabricaSection} d=${d} bump=${bump} />` : null}
+        ${section === "taticas" ? html`<${TaticasSection} d=${d} bump=${bump} />` : null}
+        ${section === "competicoes" ? html`<${CompeticoesSection} d=${d} bump=${bump} />` : null}
+        ${section === "financas" ? html`<${FinancasSection} d=${d} bump=${bump} />` : null}
+        ${section === "eras" ? html`<${ErasSection} d=${d} bump=${bump} />` : null}
+      </div>
+    </div>`;
+}
+
+render(html`<${App} />`, document.getElementById("app"));
+</script>
+
